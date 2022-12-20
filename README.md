@@ -8,7 +8,7 @@
 
 
 ##Techs utilizadas
-![Stacks utilizadas](../OpenMap/OpenmapFront/public/images/Stacks%20Display.png)
+![Stacks utilizadas](OpenmapFront/public/images/Stacks%20Display.png)
 
 
 ##Índice
