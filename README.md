@@ -1,5 +1,6 @@
-![OpenMap Logo](OpenmapFront/public/images/logoxl.png){:width="50%"}
-#Open Map
+
+<img src='./OpenmapFront/public/images/logoxl.png' width="200"/>
+
 ><br>
 >Este projeto visa demonstrar o uso básico de um frontend efetuando comunicação com um backend.
 ><br><br>
