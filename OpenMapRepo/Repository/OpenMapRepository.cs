@@ -15,13 +15,12 @@ namespace OpenMapRepo.Repository
         
             _configuration = configuration;
             connectionString = _configuration.GetConnectionString("SqlConnection");
-            //connectionString = "Server=DESKTOP-H6B9EHU\\SQLEXPRESS;Database=openmap;Trusted_Connection=True;";
 
         }
 
         public async Task<IEnumerable<OpenMapResponse>> SearchAllPlaces(int SearchPageNumber,string searchText)
         {
-            //SearchPageNumber = SearchPageNumber == 1 ? 2 : SearchPageNumber;
+            
 
             string whereClause = searchText != "All" ? $"WHERE NAME_PLACE like '%{searchText}%' or DESC_PLACE like '%{searchText}%'" : "";
 
