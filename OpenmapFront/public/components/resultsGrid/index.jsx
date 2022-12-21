@@ -36,14 +36,14 @@ export default function ({ data,callback, searchText }){
         }
       }, [data]);
 
-    useEffect(()=>{
-        if(data && data.length > 0){
-            setTotalPlaces(data[0]['totalRecords']);
-            set_number_first_item_page(([currentPage] - 1) * 20 + 1);
+    // useEffect(()=>{
+    //     if(data && data.length > 0){
+    //         setTotalPlaces(data[0]['totalRecords']);
+    //         set_number_first_item_page(([currentPage] - 1) * 20 + 1);
     
-            set_number_last_item_page(number_first_item_page + data.length - 1);
-        }
-    },[data, number_first_item_page, number_last_item_page])
+    //         set_number_last_item_page(number_first_item_page + data.length - 1);
+    //     }
+    // },[data, number_first_item_page, number_last_item_page])
 
     return(
         
