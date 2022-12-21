@@ -15,8 +15,14 @@
 - [2. Do que é composto cada pasta presente aqui no repositório?](#2-do-que-é-composto-cada-pasta-presente-aqui-no-repositório)
   - [Front-end](#front-end)
   - [Back-end](#back-end)
-  - [Como efetuar uma pesquisa?](#como-efetuar-uma-pesquisa)
+- [3. Conceitos](#3-conceitos)
+  - [O que significa CRUD?](#o-que-significa-crud)
+  - [O que é Requisição HTTP?](#o-que-é-requisição-http)
+- [4. Como rodar a aplicação](#4-como-rodar-a-aplicação)
+- [5. Ações simples da aplicação](#5-ações-simples-da-aplicação)
+  - [Pesquisa](#pesquisa)
   - [Como cadastrar um novo local?](#como-cadastrar-um-novo-local)
+  - [Como editar ou excluir um cadastro?](#como-editar-ou-excluir-um-cadastro)
   
 # 1. Descrição da aplicação
 
@@ -52,9 +58,9 @@ Aqui é onde é mantida a Controller da API na linguagem C#. Controller é o com
 
 Aqui estará localizada a pasta de repositório. O repositório é o local responsável por manter os métodos responsáveis pelas ações de um CRUD. 
 
-#3. Conceitos
+# 3. Conceitos
 
-##O que significa CRUD? 
+## O que significa CRUD? 
 
 CRUD é a sigla em inglês para Create, Read, Update e Delete. É um termo usado para se referir às operações básicas de manipulação de dados em uma base de dados ou em uma API.
 
@@ -65,7 +71,7 @@ CRUD é a sigla em inglês para Create, Read, Update e Delete. É um termo usado
 
 As operações CRUD são comumente usadas em aplicativos web e APIs para gerenciar os dados de um sistema. Por exemplo, se você tiver uma API REST para gerenciar uma lista de tarefas, poderá usar os métodos CRUD para criar novas tarefas, ler as tarefas existentes, atualizar as tarefas e excluir as tarefas da lista.
 
-##O que é Requisição HTTP?
+## O que é Requisição HTTP?
 
 Uma requisição HTTP é uma solicitação enviada por um cliente (como um navegador web ou um aplicativo) para um servidor para realizar uma ação específica. As requisições HTTP são usadas para fazer várias coisas, como buscar uma página da web, enviar dados para um formulário online, fazer login em uma conta, entre outras.
 
@@ -86,7 +92,7 @@ Os principais métodos HTTP REST e para que eles são usados são os seguintes:
 **PATCH:** O método PATCH é usado para atualizar parcialmente um recurso existente. Quando o método PATCH é usado, os dados são enviados no corpo da solicitação e o recurso é atualizado com esses dados. O método PATCH é usado para atualizar apenas uma parte de um recurso existente, em vez de substituir todos os dados do recurso.
 
 
-#4. Como rodar a aplicação
+# 4. Como rodar a aplicação
 
 Por este projeto ser apenas de estudo, ele não está hospedado em nenhum local. Para rodar a aplicação localmente, você deverá ter instalado em sua máquina as seguintes ferramentas (as versões citadas foram as utilizadas, porém, versões anteriores podem ou não rodar a aplicação sem maiores problemas.)
 
@@ -103,12 +109,20 @@ Por este projeto ser apenas de estudo, ele não está hospedado em nenhum local.
 **7.** Abra o navegador e digite **localhost:3000** - a página deverá se abrir. 
 
 
-## Como efetuar uma pesquisa?
+# 5. Ações simples da aplicação
+
+## Pesquisa
 
 A pesquisa leva dois campos em consideração: Nome e descrição do ponto turístico. O sistema procura por termos digitados, ou seja, ele leva a frase digitada e não as palavras soltas. 
 
-Clicando em Pesquisar sem nenhum valor, irá retornar uma lisgem completa dos locais. 
+Clicando em Pesquisar sem nenhum valor, irá retornar uma listagem completa dos locais. 
 
 Os resultados serão apresentados em páginas contendo 20 locais cada uma, podendo o usuário estar navegando entre as páginas na barra logo após os resultados. 
 
 ## Como cadastrar um novo local? 
+
+No canto superior direito existe o link para cadastro. Clique nele e você entrará no formulário de cadastro
+
+## Como editar ou excluir um cadastro? 
+
+Ao pesquisar os pontos turísticos, os cards dos locais aparecerão em tela. Clique na seta presente no cartão para abrir essas duas opções. 
