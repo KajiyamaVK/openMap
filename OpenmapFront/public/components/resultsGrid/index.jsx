@@ -18,7 +18,7 @@ export default function ({ data,callback, searchText }){
     const handlePagination = async (event, page) => {
         const data = await getPlaces(0,searchText,page);
         setCurrentPage(page)
-        console.log('mainsearch',data);
+
         if(data){
             callback(data)
         } else {
@@ -34,7 +34,6 @@ export default function ({ data,callback, searchText }){
           );
           set_number_last_item_page(number_first_item_page + data.length - 1);
         }
-        console.log(totalPlaces);
       }, [data]);
 
     useEffect(()=>{

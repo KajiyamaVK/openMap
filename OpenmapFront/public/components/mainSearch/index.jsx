@@ -11,7 +11,7 @@ export default function({callback, searchText,setSearchText}){
 
     async function search(){
         const data = await getPlaces(0,searchText);
-        console.log('mainsearch',data);
+
         if(data){
             callback(data)
         } else {

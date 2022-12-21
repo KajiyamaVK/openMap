@@ -75,7 +75,7 @@ namespace OpenMapRepo.Repository
                     ,CASE
 						WHEN PHOTO_URL is null then 'https://picsum.photos/300/200' 
 						else PHOTO_URL
-					END as PhotoUrl as PhotoUrl
+					END as PhotoUrl 
                 FROM PLACES
                 WHERE ID_PLACE_PK = @Id";
 

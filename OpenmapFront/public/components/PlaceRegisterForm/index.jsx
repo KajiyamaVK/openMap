@@ -11,59 +11,40 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { useEffect } from 'react';
+import getPlaces from '../../scripts/getPlaces.js'
+import {checkRequiredInputs} from '../../scripts/projectLibrary'
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 
 export default function ({idPlace}){
+    const router = useRouter();
+    const [backLoading, setBackLoading] = useState(false);
+    const [saveLoading, setSaveLoading] = useState(false);
 
-    const router = useRouter()
 
-    const [loading, setLoading] = useState(false);
+    const [alertOpenStatus, setalertOpenStatus] = useState(false);
+    const [alertEmptyFieldsOpenStatus, setalertEmptyFieldsOpenStatus] = useState(false);
+
+    const [modalOpenStatus, setModalOpenStatus] = useState(false);
+    const [modalMode,setModalMode] = useState('');
+
+    
+    const [inputName,setInputName] = useState('');
     const [inputCitiesStatus, setinputCitiesStatus] = useState(true);
     const [inputCitiesList,setCitiesList] = useState([]);
     const [inputCityValue,setCityValue] = useState('');
     const [inputUFValue,setInputUFValue] = useState('');
-    const [modalOpenStatus, setModalOpenStatus] = useState(false);
-
+    const [inputDesc,setInputDesc] = useState('');
+    const [inputUrl,setInputUrl] = useState('');
+    
     
 
-    useEffect(()=>{
-        console.log('teste')
-    },[])
-
-    const clearFields = () => {
-        setModalOpenStatus(true);
-        setCitiesList([]);
-        setCityValue('');
-        setInputUFValue('');
-    }
-
-    const modal= {
-        transition:React.forwardRef(function Transition(props, ref) {
-            return <Slide direction="up" ref={ref} {...props} />;
-        }),
-
-        handleClickOpen : () => {
-            
-        },
-        
-        handleClose : (answer) => {
-            if(answer){
-                clearFields();
-            }
-            setModalOpenStatus(false);
-        }
-    }
-
-    function handleSubmit(e){
-        e.preventDefault();
-        console.log('teste');
-    }    
-    
-    function goToHomePage(){
-        setLoading(true);
-        router.push('/')
-    }
-
-    const selectDataUF = [
+    const listOfUfs = [
         {value:12,label:'AC'},
         {value:27,label:'AL'},
         {value:13,label:'AM'},
@@ -91,12 +72,103 @@ export default function ({idPlace}){
         {value:28,label:'SE'},
         {value:35,label:'SP'},
         {value:17,label:'TO'}
-];
-      
+    ];
+
+    const getUfIdByLabel = (label) => {
+        const ufObject = listOfUfs.find(uf => uf.label === label);
+        return ufObject ? ufObject.value : null;
+    }
+
+    const clearFields = () => {
+        setInputName('');
+        setCitiesList([]);
+        setCityValue('');
+        setInputUFValue('');
+        setInputDesc('');
+    }
+
+    function handleSubmit(e){
+        e.preventDefault();
+    }    
+    
+    const handleBackButton = () =>{
+        setBackLoading(true);
+        router.push('/')
+    }
+
+    const handleSave = () => {
+        if(checkRequiredInputs()){
+            setModalOpenStatus(true);
+            setModalMode('AfterSave')
+            setalertOpenStatus(true)
+        } else {
+            setalertEmptyFieldsOpenStatus(true);
+        }
+    }
+
+    const handleAlertClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setalertOpenStatus(false)
+        setalertEmptyFieldsOpenStatus(false);
+    };
+     
+
+    const modal= {
+        transition:React.forwardRef(function Transition(props, ref) {
+            return <Slide direction="up" ref={ref} {...props} />;
+        }),
+
+        handleDialogYes:()=>{
+            setModalOpenStatus(false);
+            clearFields();
+        },
+        
+        handleDialogNo : (answer) => {
+            if(answer){
+                router.push('/')
+            }
+            setModalOpenStatus(false);
+        },
+
+
+    }
+
+
+    useEffect( ()=>{
+
+        async function fetchDataInEditMode() {
+
+            if(idPlace){
+                const result = await getPlaces(idPlace,null,1);
+                const ufId = getUfIdByLabel(result['nameUf']);
+
+                setinputCitiesStatus(false);
+                setInputUFValue(ufId);
+                setInputDesc(result['descPlace']);
+                setInputUrl(result['photoUrl'])
+                setInputName(result['namePlace'])
+
+                async function fetchCitiesList(){
+                    await fetchCities(ufId)
+                    setCityValue(result['nameCity']);
+                }
+                fetchCitiesList()
+            }
+        }
+        fetchDataInEditMode();
+    },[])
+
+
+
+
+
+ 
 
 async function fetchCities(e) {
-    const inputValue = e.target.value;
-    console.log(inputUFValue);
+    setinputCitiesStatus(false);
+    const inputValue = isNaN(e) ? e.target.value : e;
     setCitiesList([]);
     const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${inputValue}/municipios`;
     const response = await fetch(url);
@@ -106,13 +178,8 @@ async function fetchCities(e) {
         return ufData.nome;
     })
     setCitiesList(result);
-    setinputCitiesStatus(false);
-    console.log(result)
 }
 
-async function saveData() {
-    setModalOpenStatus(true);
-}
    
 
     return(
@@ -123,7 +190,10 @@ async function saveData() {
                     sx={{
                         width:"100%",
                     }}
-                    required/>
+                    value={inputName}
+                    onChange={e=>setInputName(e.target.value)}
+                    required
+                />
 
                 
                 
@@ -138,7 +208,7 @@ async function saveData() {
 
                     <TextField
                         name='ID_UF_FK'
-                        id="outlined-select-currency"
+                        id="ID_UF_FK"
                         select
                         label="UF"
                         sx={{
@@ -148,7 +218,7 @@ async function saveData() {
                         value={inputUFValue}
                         onChange={e=>{setInputUFValue(e.target.value); fetchCities(e);}}
                     >   
-                        {selectDataUF.map((option) => (
+                        {listOfUfs.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
                             {option.label}
                             </MenuItem>
@@ -176,6 +246,17 @@ async function saveData() {
                     </TextField>
                 </div>
 
+                <TextField 
+                    label="URL da Imagem"
+                    sx={{
+                        width:"100%",
+                        marginTop:'20px'
+                    }}
+                    id="IdinputUrl"
+                    value={inputUrl}
+                    onChange={e=>setInputUrl(e.target.value)}
+                />
+
                 <TextField
                     id="outlined-multiline-static"
                     label="Descrição"
@@ -184,13 +265,16 @@ async function saveData() {
                     sx={{
                         marginTop:'20px'
                     }}
+                    value={inputDesc}
+                    onChange={e=>setInputDesc(e.target.value)}
+                    required
                 />
 
                 <div id={style.buttonsContainer}>
                     <Button 
                         variant='contained'
-                        onClick={goToHomePage}>
-                        {loading ? <CircularProgress 
+                        onClick={handleBackButton}>
+                        {backLoading ? <CircularProgress 
                                     size={24} 
                                     style ={{color:'white'}}
                                     /> : 'Voltar'}
@@ -199,9 +283,12 @@ async function saveData() {
                     <Button 
                         variant='contained'
                         type='submit'
-                        onClick={saveData}> 
-                        
-                        Salvar 
+                        onClick={handleSave}> 
+                        {saveLoading ? <CircularProgress 
+                                    size={24} 
+                                    style ={{color:'white'}}
+                                    /> : 'Salvar'}
+                         
                     </Button>
                 </div>
 
@@ -226,10 +313,23 @@ async function saveData() {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={modal.handleClose}>Sim</Button>
-                <Button onClick={modal.handleClose}>Não</Button>
+                <Button onClick={modal.handleDialogYes}>Sim</Button>
+                <Button onClick={modal.handleDialogNo}>Não</Button>
             </DialogActions>
         </Dialog>
+
+
+        <Snackbar open={alertOpenStatus} autoHideDuration={6000} onClose={handleAlertClose}>
+            <Alert severity="success" sx={{ width: '100%' }} onClose={handleAlertClose}>
+            Ponto turístico gravado com sucesso!
+            </Alert>
+        </Snackbar>
+
+        <Snackbar open={alertEmptyFieldsOpenStatus} autoHideDuration={6000} onClose={handleAlertClose}>
+            <Alert severity="error" sx={{ width: '100%' }} onClose={handleAlertClose}>
+                Verifique os campos com asteriscos ( * ) pois eles são obrigatórios. 
+            </Alert>
+        </Snackbar>
 
             
         </div>
