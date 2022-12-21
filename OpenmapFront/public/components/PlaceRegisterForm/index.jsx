@@ -1,10 +1,16 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//      Componente responsável por renderizar o formulário de cadastro dos pontos turísticos          /////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 import * as React from 'react';
 import style from './stylesheet.module.css';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-
+//Componentes UI utilizados
 import { TextField, Box, Button, FormLabel, CircularProgress, MenuItem } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -12,16 +18,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
-
-
-import getPlaces from '../../scripts/getPlaces.js'
-import insertPlace from '../../scripts/insertPlace';
-import updatePlace from '../../scripts/updatePlace';
-
-import {checkRequiredInputs} from '../../scripts/projectLibrary'
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
+//Funções utilizadas via externa
+import getPlaces from '../../scripts/getPlaces.js'
+import insertPlace from '../../scripts/insertPlace';
+import updatePlace from '../../scripts/updatePlace';
+import {checkRequiredInputs} from '../../scripts/projectLibrary'
+
+//Elemento ALERT que é exibido na parte inferior exibindo sucesso ou erro em alguma ação
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -92,10 +98,6 @@ export default function ({idPlace}){
         setInputDesc('');
         setInputUrl('');
     }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-    }    
     
     const handleBackButton = () =>{
         setBackLoading(true);
@@ -149,9 +151,6 @@ export default function ({idPlace}){
                 }
             }
             changePlace();
-
-            
-            // setalertOpenStatus(true)
         } 
 
 

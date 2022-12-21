@@ -4,6 +4,7 @@ import MainSearch from '../public/components/mainSearch'
 import ResultGrid from '../public/components/resultsGrid'
 import { useState } from 'react'
 
+
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {

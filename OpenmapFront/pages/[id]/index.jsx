@@ -3,7 +3,7 @@ import PlaceRegisterForm from '../../public/components/PlaceRegisterForm'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 
-export default function (){
+export default function registerPage(){
     const router = useRouter();
     const [idPlace, setIdPlace] = useState(router.query.id);
 
