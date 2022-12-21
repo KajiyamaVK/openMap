@@ -9,7 +9,7 @@ namespace OpenMapRepo.Repository
     public class OpenMapRepository : IOpenMap
     {
         private readonly IConfiguration _configuration;
-        private readonly string connectionString;
+        private readonly string? connectionString;
 
         public OpenMapRepository(IConfiguration configuration) { 
         
@@ -84,24 +84,68 @@ namespace OpenMapRepo.Repository
 
         }
 
-        public Task<IEnumerable<OpenMapResponse>> SearchPlaces(string SearchText)
+
+        public async Task<bool> UpdatePlace(OpenMapRequest request, int ID)
         {
-            throw new NotImplementedException();
+
+            string sql = @"
+
+            UPDATE PLACES
+                set NAME_PLACE = @NamePlace
+                ,DESC_PLACE = @DescPlace
+                ,NAME_CITY = @NameCity
+                ,NAME_UF = @NameUf
+                ,PHOTO_URL = @PhotoUrl
+            WHERE ID_PLACE_PK = @ID";
+
+            using SqlConnection con = new(connectionString);
+
+            var parametros = new DynamicParameters();
+
+            parametros.Add("NamePlace", request.NamePlace);
+            parametros.Add("DescPlace", request.DescPlace);
+            parametros.Add("NameCity", request.NameCity);
+            parametros.Add("NameUf", request.NameUf);
+            parametros.Add("PhotoUrl", request.PhotoUrl);
+            parametros.Add("Id", ID);
+
+            return await con.ExecuteAsync(sql, parametros) > 0;
         }
 
-        public Task<bool> AddPlace(OpenMapRequest request)
+        public async Task<bool> AddPlace(OpenMapRequest request)
         {
-            throw new NotImplementedException();
+            string sql = @"
+
+            INSERT INTO dbo.PLACES
+                (NAME_PLACE
+                ,DESC_PLACE
+                ,NAME_CITY
+                ,NAME_UF
+                ,PHOTO_URL)
+             VALUES(
+                @NamePlace
+               ,@DescPlace 
+               ,@NameCity
+               ,@NameUf
+               ,@PhotoUrl)";
+
+            using SqlConnection con = new(connectionString);
+            return await con.ExecuteAsync(sql, request) > 0;
+            
         }
 
-        public Task<bool> UpdatePlace(OpenMapRequest request, int idPlace)
+        public async Task<bool> DeletePlace(int id)
         {
-            throw new NotImplementedException();
-        }
+            string sql = @"
 
-        public Task<bool> DeletePlace(int idPlace)
-        {
-            throw new NotImplementedException();
+            DELETE 
+            FROM PLACES
+            WHERE id_place_pk = @Id";
+
+            using SqlConnection con = new(connectionString);
+
+
+            return await con.ExecuteAsync(sql, new { Id = id }) > 0;
         }
 
     }

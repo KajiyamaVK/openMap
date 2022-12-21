@@ -1,8 +1,10 @@
-
 import * as React from 'react';
 import style from './stylesheet.module.css';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+
+
 import { TextField, Box, Button, FormLabel, CircularProgress, MenuItem } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -10,9 +12,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
-import { useEffect } from 'react';
+
+
 import getPlaces from '../../scripts/getPlaces.js'
 import insertPlace from '../../scripts/insertPlace';
+import updatePlace from '../../scripts/updatePlace';
+
 import {checkRequiredInputs} from '../../scripts/projectLibrary'
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -27,13 +32,10 @@ export default function ({idPlace}){
     const [backLoading, setBackLoading] = useState(false);
     const [saveLoading, setSaveLoading] = useState(false);
 
-
     const [alertOpenStatus, setalertOpenStatus] = useState(false);
     const [alertErrorOpenState, setAlertErrorOpenState] = useState(false);
 
     const [modalOpenStatus, setModalOpenStatus] = useState(false);
-    const [modalMode,setModalMode] = useState('');
-
     
     const [inputName,setInputName] = useState('');
     const [inputCitiesStatus, setinputCitiesStatus] = useState(true);
@@ -82,14 +84,16 @@ export default function ({idPlace}){
     }
 
     const clearFields = () => {
+
         setInputName('');
         setCitiesList([]);
         setCityValue('');
         setInputUFIdValue('');
         setInputDesc('');
+        setInputUrl('');
     }
 
-    function handleSubmit(e){
+    const handleSubmit = (e) => {
         e.preventDefault();
     }    
     
@@ -98,32 +102,60 @@ export default function ({idPlace}){
         router.push('/')
     }
 
+    const formValues = {
+        "idPlace":idPlace,
+        "nameUf": getUfIdByKey('value',inputUFIdValue) ,
+        "nameCity": inputCityValue,
+        "namePlace": inputName,
+        "descPlace": inputDesc,
+        "photoUrl": inputUrl
+    }
+
     const handleSave = () => {
-        if(checkRequiredInputs()){
-            async function addPlace(){
-                const requestSitSuccess = await insertPlace(
-                    {
-                        "nameUf": getUfIdByKey('value',inputUFIdValue) ,
-                        "nameCity": inputName,
-                        "namePlace": inputName,
-                        "descPlace": inputDesc,
-                        "photoUrl": inputUrl
+
+        if(isNaN(idPlace)){
+            if(checkRequiredInputs()){
+                async function addPlace(){
+    
+                    const requestSitSuccess = await insertPlace(formValues);
+    
+                    if(requestSitSuccess){
+                        //setalertOpenStatus(true)
+                        setModalOpenStatus(true);
+                        // setModalMode('AfterSave')
+                        
+                    } else {
+                        setAlertErrorOpenState(true);
+                        setAlertErrorMessage('Houve um cenário não previsto. Entre em contato com o suporte.')
                     }
-                )
+                }
+                addPlace();
+            } else {
+                setAlertErrorOpenState(true);
+                setAlertErrorMessage('Verifique os campos com asteriscos ( * ) pois eles são obrigatórios. ')
+            }
+        } else {
+
+            async function changePlace(){
+    
+                const requestSitSuccess = await updatePlace(formValues);;
+
                 if(requestSitSuccess){
-                    setModalOpenStatus(true);
-                    setModalMode('AfterSave')
                     setalertOpenStatus(true)
+                    router.push('/');
                 } else {
                     setAlertErrorOpenState(true);
                     setAlertErrorMessage('Houve um cenário não previsto. Entre em contato com o suporte.')
                 }
             }
-            addPlace();
-        } else {
-            setAlertErrorOpenState(true);
-            setAlertErrorMessage('Verifique os campos com asteriscos ( * ) pois eles são obrigatórios. ')
-        }
+            changePlace();
+
+            
+            // setalertOpenStatus(true)
+        } 
+
+
+        
     }
 
     const handleAlertClose = (event, reason) => {
@@ -142,6 +174,7 @@ export default function ({idPlace}){
 
         handleDialogYes:()=>{
             setModalOpenStatus(false);
+            router.reload(window.location.pathname)
             clearFields();
         },
         
@@ -151,6 +184,14 @@ export default function ({idPlace}){
             }
             setModalOpenStatus(false);
         },
+
+        handleClose : () => {
+            document.querySelector('div[role="presentation"]').style.display = 'none';
+        },
+
+        handleOpen: () =>{
+            document.querySelector('div[role="presentation"]').style.display = 'block';
+        }
 
 
     }
@@ -186,25 +227,25 @@ export default function ({idPlace}){
 
  
 
-async function fetchCities(e) {
-    setinputCitiesStatus(false);
-    const inputValue = isNaN(e) ? e.target.value : e;
-    setCitiesList([]);
-    const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${inputValue}/municipios`;
-    const response = await fetch(url);
-    const data = await response.json();
+    const fetchCities = async (e) => {
+        setinputCitiesStatus(false);
+        const inputValue = isNaN(e) ? e.target.value : e;
+        setCitiesList([]);
+        const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${inputValue}/municipios`;
+        const response = await fetch(url);
+        const data = await response.json();
 
-    const result = data.map((ufData)=>{
-        return ufData.nome;
-    })
-    setCitiesList(result);
-}
+        const result = data.map((ufData)=>{
+            return ufData.nome;
+        })
+        setCitiesList(result);
+    }
 
    
 
     return(
         <div id={style.main}>
-            <Box id={style.formContainer} component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <Box id={style.formContainer} component="form" noValidate sx={{ mt: 1 }}>
                 <TextField 
                     label="Digite o nome do ponto turístico"
                     sx={{
@@ -302,7 +343,6 @@ async function fetchCities(e) {
 
                     <Button 
                         variant='contained'
-                        type='submit'
                         onClick={handleSave}> 
                         {saveLoading ? <CircularProgress 
                                     size={24} 
@@ -323,8 +363,6 @@ async function fetchCities(e) {
         <Dialog
             open={modalOpenStatus}
             TransitionComponent={modal.transition}
-            keepMounted
-            onClose={modal.handleClose}
         >
             <DialogTitle>{"Novo Cadastro"}</DialogTitle>
             <DialogContent>
@@ -341,7 +379,7 @@ async function fetchCities(e) {
 
         <Snackbar open={alertOpenStatus} autoHideDuration={6000} onClose={handleAlertClose}>
             <Alert severity="success" sx={{ width: '100%' }} onClose={handleAlertClose}>
-            Ponto turístico gravado com sucesso!
+                Ponto turístico gravado/atualizado com sucesso!
             </Alert>
         </Snackbar>
 

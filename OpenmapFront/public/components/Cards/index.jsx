@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,forwardRef } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -13,6 +13,17 @@ import EditIcon from '@mui/icons-material/Edit';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useRouter } from 'next/router';
 import moment from 'moment';
+import deletePlace from '../../scripts/deletePlace'
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+
+
+
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -25,26 +36,76 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-function CardModel({ index,place, onExpandClick  }) {
+const modal= {
+  transition:forwardRef(function Transition(props, ref) {
+      return <Slide direction="up" ref={ref} {...props} />;
+  }),
+
+  handleDialogYes:()=>{
+      setModalOpenStatus(false);
+      clearFields();
+  },
+  
+  handleDialogNo : (answer) => {
+      if(answer){
+          router.push('/')
+      }
+      setModalOpenStatus(false);
+  },
+
+
+}
+
+function CardModel({ index,place, expandedIndex, setExpandedIndex  }) {
 
   
-
-  const [expanded, setExpanded] = useState(false);
+  const [modalOpenStatus, setModalOpenStatus] = useState(false);
   const router =  useRouter();
 
+  const handleExpandClick = () => {
+    if (index == expandedIndex) {
+      setExpandedIndex(null);
+    } else {
+      setExpandedIndex(index);
+    }
+  };
 
+  const delPlace = () =>{
+    
+    const deleteStatus = deletePlace(place.idPlace);
+
+    if(deleteStatus){
+      router.reload(window.location.pathname)
+    }  
+
+    handleCloseModal();
+
+  }
+
+  const handleOpenModal = () => {
+    setModalOpenStatus(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpenStatus(false);
+  };
+
+  const expanded = index == expandedIndex;
   const gotoEditMode = () =>{
     router.push(`/${place.idPlace}`)
   }
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-    onExpandClick(index);
-  };
+
+
+  // const handleExpandClick = () => {
+  //   setExpanded(!expanded);
+  //   onExpandClick(index);
+  // };
 
 
 
   return (
+    <>
     <Card key={place.idPlace} sx={{ minWidth: 345,maxWidth: 345,margin:5 }}>
       <CardHeader
         title={place.namePlace}
@@ -56,17 +117,23 @@ function CardModel({ index,place, onExpandClick  }) {
         src={place.photoUrl}
       /> 
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {place.descPlace}
-        </Typography>
+        {expanded ? (
+          <Typography variant="body2">{place.descPlace}</Typography>
+        ) : (
+          <Typography variant="body2" >
+            {place.descPlace.length > 300
+              ? `${place.descPlace.substring(0, 300).trim()}...`
+              : place.descPlace}
+          </Typography>
+        )}
       </CardContent>
       <CardActions disableSpacing>
         
         <ExpandMore
           expand={expanded}
-          onClick={e=>handleExpandClick(e)}
+          onClick={handleExpandClick}
           aria-expanded={expanded}
-          aria-label="show more"
+          aria-label="Mostrar mais"
         >
           <ExpandMoreIcon />
         </ExpandMore>
@@ -86,7 +153,7 @@ function CardModel({ index,place, onExpandClick  }) {
           <b>Data de atualização:</b>{moment(place.dateUpdated).format('DD/MM/YYYY HH:mm')}
         </div>
         <div style={{position:'relative', left:230, top:15}}>
-          <IconButton aria-label="add to favorites">
+          <IconButton onClick={handleOpenModal}>
             <DeleteIcon />
           </IconButton>
 
@@ -98,18 +165,42 @@ function CardModel({ index,place, onExpandClick  }) {
 
       </Collapse>
                             </Card>
+
+                            <Dialog
+            open={modalOpenStatus}
+            TransitionComponent={modal.transition}
+            keepMounted
+            onClose={handleCloseModal}
+        >
+            <DialogTitle>{"Novo Cadastro"}</DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-slide-description">
+                    Tem certeza que deseja apagar este ponto turístico? 
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={delPlace}>Sim</Button>
+                <Button onClick={handleCloseModal}>Não</Button>
+            </DialogActions>
+        </Dialog>
+                            </>
+      
   )
 }
 
 
 export default function({data}) {
   const [expandedList, setExpandedList] = useState([]);
+  const [expandedIndex, setExpandedIndex] = useState(null);
+  
   
   const handleExpandClick = (index) => {
     const newExpandedList = [...expandedList];
     newExpandedList[index] = !newExpandedList[index];
     setExpandedList(newExpandedList);
   };
+
+
 
 
   if(data){
@@ -122,12 +213,16 @@ export default function({data}) {
           key={place.idPlace}
           index={index}
           place={place}
-          onExpandClick={handleExpandClick}/>
+          expandedIndex={expandedIndex}
+          setExpandedIndex={setExpandedIndex}
+          // onExpandClick={handleExpandClick}
+        />
         ))}
 
     </div>
     
     <div>
+    
 
 </div>
 </>

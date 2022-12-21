@@ -15,7 +15,7 @@ export default function Home() {
     <>
       <Head>
         <title>Open Map - Início</title>
-        <link rel="icon" href="../images/favicon.png" />
+        <link rel="icon" href="../images/favicon.ico" />
       </Head>
       <MainSearch callback={setSearchResult} setSearchText={setSearchText} searchText={searchText}/>
       <ResultGrid data={searchResult} callback={setSearchResult} searchText={searchText}/>
