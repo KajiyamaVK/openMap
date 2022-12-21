@@ -12,6 +12,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { useEffect } from 'react';
 import getPlaces from '../../scripts/getPlaces.js'
+import insertPlace from '../../scripts/insertPlace';
 import {checkRequiredInputs} from '../../scripts/projectLibrary'
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -28,7 +29,7 @@ export default function ({idPlace}){
 
 
     const [alertOpenStatus, setalertOpenStatus] = useState(false);
-    const [alertEmptyFieldsOpenStatus, setalertEmptyFieldsOpenStatus] = useState(false);
+    const [alertErrorOpenState, setAlertErrorOpenState] = useState(false);
 
     const [modalOpenStatus, setModalOpenStatus] = useState(false);
     const [modalMode,setModalMode] = useState('');
@@ -38,9 +39,10 @@ export default function ({idPlace}){
     const [inputCitiesStatus, setinputCitiesStatus] = useState(true);
     const [inputCitiesList,setCitiesList] = useState([]);
     const [inputCityValue,setCityValue] = useState('');
-    const [inputUFValue,setInputUFValue] = useState('');
+    const [inputUFIdValue,setInputUFIdValue] = useState('');
     const [inputDesc,setInputDesc] = useState('');
     const [inputUrl,setInputUrl] = useState('');
+    const [alertErrorMessage, setAlertErrorMessage] = useState('');
     
     
 
@@ -74,16 +76,16 @@ export default function ({idPlace}){
         {value:17,label:'TO'}
     ];
 
-    const getUfIdByLabel = (label) => {
-        const ufObject = listOfUfs.find(uf => uf.label === label);
-        return ufObject ? ufObject.value : null;
+    const getUfIdByKey = (key, value) => {
+        const ufObject = listOfUfs.find(uf => uf[key] === value);
+        return ufObject ? (key === 'label' ? ufObject.value : ufObject.label) : null;
     }
 
     const clearFields = () => {
         setInputName('');
         setCitiesList([]);
         setCityValue('');
-        setInputUFValue('');
+        setInputUFIdValue('');
         setInputDesc('');
     }
 
@@ -98,11 +100,29 @@ export default function ({idPlace}){
 
     const handleSave = () => {
         if(checkRequiredInputs()){
-            setModalOpenStatus(true);
-            setModalMode('AfterSave')
-            setalertOpenStatus(true)
+            async function addPlace(){
+                const requestSitSuccess = await insertPlace(
+                    {
+                        "nameUf": getUfIdByKey('value',inputUFIdValue) ,
+                        "nameCity": inputName,
+                        "namePlace": inputName,
+                        "descPlace": inputDesc,
+                        "photoUrl": inputUrl
+                    }
+                )
+                if(requestSitSuccess){
+                    setModalOpenStatus(true);
+                    setModalMode('AfterSave')
+                    setalertOpenStatus(true)
+                } else {
+                    setAlertErrorOpenState(true);
+                    setAlertErrorMessage('Houve um cenário não previsto. Entre em contato com o suporte.')
+                }
+            }
+            addPlace();
         } else {
-            setalertEmptyFieldsOpenStatus(true);
+            setAlertErrorOpenState(true);
+            setAlertErrorMessage('Verifique os campos com asteriscos ( * ) pois eles são obrigatórios. ')
         }
     }
 
@@ -111,7 +131,7 @@ export default function ({idPlace}){
           return;
         }
         setalertOpenStatus(false)
-        setalertEmptyFieldsOpenStatus(false);
+        setAlertErrorOpenState(false);
     };
      
 
@@ -140,12 +160,12 @@ export default function ({idPlace}){
 
         async function fetchDataInEditMode() {
 
-            if(idPlace){
+            if(!isNaN(idPlace)){
                 const result = await getPlaces(idPlace,null,1);
-                const ufId = getUfIdByLabel(result['nameUf']);
+                const ufId = getUfIdByKey('label',result['nameUf']);
 
                 setinputCitiesStatus(false);
-                setInputUFValue(ufId);
+                setInputUFIdValue(ufId);
                 setInputDesc(result['descPlace']);
                 setInputUrl(result['photoUrl'])
                 setInputName(result['namePlace'])
@@ -215,8 +235,8 @@ async function fetchCities(e) {
                             width:"17%",
                         }}
                         required
-                        value={inputUFValue}
-                        onChange={e=>{setInputUFValue(e.target.value); fetchCities(e);}}
+                        value={inputUFIdValue}
+                        onChange={e=>{setInputUFIdValue(e.target.value); fetchCities(e);}}
                     >   
                         {listOfUfs.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
@@ -325,9 +345,9 @@ async function fetchCities(e) {
             </Alert>
         </Snackbar>
 
-        <Snackbar open={alertEmptyFieldsOpenStatus} autoHideDuration={6000} onClose={handleAlertClose}>
+        <Snackbar open={alertErrorOpenState} autoHideDuration={6000} onClose={handleAlertClose}>
             <Alert severity="error" sx={{ width: '100%' }} onClose={handleAlertClose}>
-                Verifique os campos com asteriscos ( * ) pois eles são obrigatórios. 
+                {alertErrorMessage}
             </Alert>
         </Snackbar>
 
