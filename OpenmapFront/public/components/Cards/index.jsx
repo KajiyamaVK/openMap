@@ -1,4 +1,6 @@
 import { useState,forwardRef } from 'react';
+import { useRouter } from 'next/router';
+
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -11,7 +13,6 @@ import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useRouter } from 'next/router';
 import moment from 'moment';
 import deletePlace from '../../scripts/deletePlace'
 import Button from '@mui/material/Button';
@@ -24,7 +25,7 @@ import Slide from '@mui/material/Slide';
 
 
 
-
+//Botão responsável para expandir as informações do card. 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -35,6 +36,7 @@ const ExpandMore = styled((props) => {
     duration: theme.transitions.duration.shortest,
   }),
 }));
+
 
 const modal= {
   transition:forwardRef(function Transition(props, ref) {
@@ -94,15 +96,6 @@ function CardModel({ index,place, expandedIndex, setExpandedIndex  }) {
   const gotoEditMode = () =>{
     router.push(`/${place.idPlace}`)
   }
-
-
-
-  // const handleExpandClick = () => {
-  //   setExpanded(!expanded);
-  //   onExpandClick(index);
-  // };
-
-
 
   return (
     <>

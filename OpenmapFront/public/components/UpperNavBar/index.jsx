@@ -8,7 +8,7 @@ export default function UpperNavBar(){
         <div id={style.main}>
             <Image
                     src={logo}
-                    alt="Picture of the author"
+                    alt="Logo da OpenMap"
                     width={70}
                     height={70}
                     loading='lazy'
