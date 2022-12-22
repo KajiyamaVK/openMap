@@ -7,7 +7,7 @@ import getPlaces from '../../scripts/getPlaces.js'
 
 export default function({callback, searchText,setSearchText}){
 
-    
+    useState(()=>search(),[])
 
     async function search(){
         const data = await getPlaces(0,searchText);
@@ -18,6 +18,8 @@ export default function({callback, searchText,setSearchText}){
             callback([])
         }
     }
+
+    
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {

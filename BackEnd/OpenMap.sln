@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenMapApi", "Projects\OpenMapApi\OpenMapApi.csproj", "{BE666E05-F3A2-457C-BB73-85516C441D7B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenMapRepo", "Projects\OpenMapRepo\OpenMapRepo.csproj", "{44880983-0C0C-4B60-AD7E-63FE44519F17}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BE666E05-F3A2-457C-BB73-85516C441D7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE666E05-F3A2-457C-BB73-85516C441D7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE666E05-F3A2-457C-BB73-85516C441D7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE666E05-F3A2-457C-BB73-85516C441D7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44880983-0C0C-4B60-AD7E-63FE44519F17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44880983-0C0C-4B60-AD7E-63FE44519F17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44880983-0C0C-4B60-AD7E-63FE44519F17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44880983-0C0C-4B60-AD7E-63FE44519F17}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {087B3B8B-1FC7-4535-95F1-467CA7D35383}
+	EndGlobalSection
+EndGlobal

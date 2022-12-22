@@ -229,14 +229,14 @@ export default function ({idPlace}){
         setinputCitiesStatus(false);
         const inputValue = isNaN(e) ? e.target.value : e;
         setCitiesList([]);
-        const url = `'https://localhost:7164/fetchCities?id=${inputValue}`;
+        const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${inputValue}/municipios`;
         const response = await fetch(url);
         const data = await response.json();
 
         const result = data.map((ufData)=>{
             return ufData.nome;
         })
-        setCitiesList(result);
+        await setCitiesList(result);
     }
 
    
@@ -319,17 +319,6 @@ export default function ({idPlace}){
                     onChange={e=>setInputReference(e.target.value)}
                 />
 
-                <TextField 
-                    label="URL da Imagem"
-                    sx={{
-                        width:"100%",
-                        marginTop:'20px'
-                    }}
-                    id="IdinputUrl"
-                    value={inputUrl}
-                    inputProps={{ maxLength: 1000 }}
-                    onChange={e=>setInputUrl(e.target.value)}
-                />
 
                 <TextField
                     id="outlined-multiline-static"
