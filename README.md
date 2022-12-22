@@ -101,11 +101,17 @@ Por este projeto ser apenas de estudo, ele não está hospedado em nenhum local.
 **Asp .NET Core 7.0**
 
 **1.** Clone o repositório em um diretório de sua escolha. 
+
 **2.** Para facilitar o processo de criação do banco de dados, foi feito um backup e anexado a este repositório com o nome **Modelo.bak**. Este pode ser restaurado no SGBD. 
+
 **3.** Abra a pasta **OpenMapAPI** e edite o arquivo **appsettings.json** e edite a string de conexão conforme a instância instalada em sua máquina. 
+
 **4.** Rode a aplicação C# utilizando o Visual Studio ou seu editor de código. Assim, o servidor backend deverá estar em funcionamento.
+
 **5.** Utilizando Node na versão 18.12, navegue até o diretório da pasta OpenMapFront e rode o **NPM INSTALL**
+
 **6.** Execute o Node em modo de desenvolvimento com **NPM RUN DEV**, assim, o projeto do site (front-end) será iniciado. 
+
 **7.** Abra o navegador e digite **localhost:3000** - a página deverá se abrir. 
 
 
