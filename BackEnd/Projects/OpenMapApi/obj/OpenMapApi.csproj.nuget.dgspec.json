@@ -1,24 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "A:\\projetos\\OpenMap\\BackEnd\\Projects\\OpenMapApi\\OpenMapApi.csproj": {}
+    "D:\\Projetos\\openMap\\BackEnd\\Projects\\OpenMapApi\\OpenMapApi.csproj": {}
   },
   "projects": {
-    "A:\\projetos\\OpenMap\\BackEnd\\Projects\\OpenMapApi\\OpenMapApi.csproj": {
+    "D:\\Projetos\\openMap\\BackEnd\\Projects\\OpenMapApi\\OpenMapApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "A:\\projetos\\OpenMap\\BackEnd\\Projects\\OpenMapApi\\OpenMapApi.csproj",
+        "projectUniqueName": "D:\\Projetos\\openMap\\BackEnd\\Projects\\OpenMapApi\\OpenMapApi.csproj",
         "projectName": "OpenMapApi",
-        "projectPath": "A:\\projetos\\OpenMap\\BackEnd\\Projects\\OpenMapApi\\OpenMapApi.csproj",
-        "packagesPath": "C:\\Users\\victo\\.nuget\\packages\\",
-        "outputPath": "A:\\projetos\\OpenMap\\BackEnd\\Projects\\OpenMapApi\\obj\\",
+        "projectPath": "D:\\Projetos\\openMap\\BackEnd\\Projects\\OpenMapApi\\OpenMapApi.csproj",
+        "packagesPath": "C:\\Users\\victor.kajiyama\\.nuget\\packages\\",
+        "outputPath": "D:\\Projetos\\openMap\\BackEnd\\Projects\\OpenMapApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\victo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\victor.kajiyama\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,15 +25,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://www.newconsoftware.com.br/nwpackage/nuget": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "A:\\projetos\\OpenMap\\BackEnd\\Projects\\OpenMapRepo\\OpenMapRepo.csproj": {
-                "projectPath": "A:\\projetos\\OpenMap\\BackEnd\\Projects\\OpenMapRepo\\OpenMapRepo.csproj"
+              "D:\\Projetos\\openMap\\BackEnd\\Projects\\OpenMapRepo\\OpenMapRepo.csproj": {
+                "projectPath": "D:\\Projetos\\openMap\\BackEnd\\Projects\\OpenMapRepo\\OpenMapRepo.csproj"
               }
             }
           }
@@ -57,6 +56,10 @@
               "target": "Package",
               "version": "[5.2.9, )"
             },
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[5.1.1, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
@@ -77,6 +80,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.16, 6.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[6.0.16, 6.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.16, 6.0.16]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.16, 6.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -85,25 +106,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "A:\\projetos\\OpenMap\\BackEnd\\Projects\\OpenMapRepo\\OpenMapRepo.csproj": {
+    "D:\\Projetos\\openMap\\BackEnd\\Projects\\OpenMapRepo\\OpenMapRepo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "A:\\projetos\\OpenMap\\BackEnd\\Projects\\OpenMapRepo\\OpenMapRepo.csproj",
+        "projectUniqueName": "D:\\Projetos\\openMap\\BackEnd\\Projects\\OpenMapRepo\\OpenMapRepo.csproj",
         "projectName": "OpenMapRepo",
-        "projectPath": "A:\\projetos\\OpenMap\\BackEnd\\Projects\\OpenMapRepo\\OpenMapRepo.csproj",
-        "packagesPath": "C:\\Users\\victo\\.nuget\\packages\\",
-        "outputPath": "A:\\projetos\\OpenMap\\BackEnd\\Projects\\OpenMapRepo\\obj\\",
+        "projectPath": "D:\\Projetos\\openMap\\BackEnd\\Projects\\OpenMapRepo\\OpenMapRepo.csproj",
+        "packagesPath": "C:\\Users\\victor.kajiyama\\.nuget\\packages\\",
+        "outputPath": "D:\\Projetos\\openMap\\BackEnd\\Projects\\OpenMapRepo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\victo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\victor.kajiyama\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -111,8 +131,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://www.newconsoftware.com.br/nwpackage/nuget": {}
         },
         "frameworks": {
           "net6.0": {
@@ -158,12 +178,26 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.16, 6.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.16, 6.0.16]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.16, 6.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     }

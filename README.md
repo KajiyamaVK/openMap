@@ -1,5 +1,5 @@
 
-<img src='./FrontEnd/public/images/logoxl.png' width="200"/>
+<img src='./FrontEnd/images/logoxl.png' width="200"/>
 
 ><br>
 >Este projeto visa demonstrar o uso básico de um frontend efetuando comunicação com um backend por meio de uma API em C# que efetua todo o processo CRUD no servidor. 
@@ -8,7 +8,7 @@
 
 
 ##Techs utilizadas
-![Stacks utilizadas](./FrontEnd/public/images/Stacks%20Display.png)
+![Stacks utilizadas](./FrontEnd/images/Stacks%20Display.png)
 
    
 - [1. Descrição da aplicação](#1-descrição-da-aplicação)
